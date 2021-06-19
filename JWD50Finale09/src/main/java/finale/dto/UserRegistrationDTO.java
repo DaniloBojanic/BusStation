@@ -1,6 +1,6 @@
 package finale.dto;
 
-public class KorisnikRegistracijaDTO extends KorisnikDTO{
+public class UserRegistrationDTO extends UserDTO{
 	
 	private String lozinka;
 

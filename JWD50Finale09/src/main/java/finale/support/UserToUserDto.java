@@ -6,15 +6,15 @@ import java.util.List;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import finale.dto.KorisnikDTO;
-import finale.model.Korisnik;
+import finale.dto.UserDTO;
+import finale.model.User;
 
 @Component
-public class KorisnikToKorisnikDto implements Converter<Korisnik, KorisnikDTO>{
+public class UserToUserDto implements Converter<User, UserDTO>{
 	
 	@Override
-    public KorisnikDTO convert(Korisnik korisnik) {
-        KorisnikDTO korisnikDTO = new KorisnikDTO();
+    public UserDTO convert(User korisnik) {
+        UserDTO korisnikDTO = new UserDTO();
 
         korisnikDTO.setId(korisnik.getId());
         korisnikDTO.seteMail(korisnik.geteMail());
@@ -25,11 +25,11 @@ public class KorisnikToKorisnikDto implements Converter<Korisnik, KorisnikDTO>{
         return korisnikDTO;
     }
 
-    public List<KorisnikDTO> convert(List<Korisnik> korisnici){
-        List<KorisnikDTO> korisnikDTOS = new ArrayList<>();
+    public List<UserDTO> convert(List<User> korisnici){
+        List<UserDTO> korisnikDTOS = new ArrayList<>();
 
-        for(Korisnik k : korisnici) {
-            KorisnikDTO dto = convert(k);
+        for(User k : korisnici) {
+            UserDTO dto = convert(k);
             korisnikDTOS.add(dto);
         }
 

@@ -30,28 +30,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import finale.dto.AuthKorisnikDto;
-import finale.dto.KorisnikDTO;
-import finale.dto.KorisnikPromenaLozinkeDto;
-import finale.dto.KorisnikRegistracijaDTO;
-import finale.model.Korisnik;
+import finale.dto.AuthUserDto;
+import finale.dto.UserDTO;
+import finale.dto.UserPasswordChangeDto;
+import finale.dto.UserRegistrationDTO;
+import finale.model.User;
 import finale.security.TokenUtils;
-import finale.service.KorisnikService;
-import finale.support.KorisnikDtoToKorisnik;
-import finale.support.KorisnikToKorisnikDto;
+import finale.service.UserService;
+import finale.support.UserDtoToUser;
+import finale.support.UserToUserDto;
 
 @RestController
 @RequestMapping(value = "/api/korisnici", produces = MediaType.APPLICATION_JSON_VALUE)
 public class KorisnikController {
 	
 	@Autowired
-    private KorisnikService korisnikService;
+    private UserService korisnikService;
 
     @Autowired
-    private KorisnikDtoToKorisnik toKorisnik;
+    private UserDtoToUser toKorisnik;
 
     @Autowired
-    private KorisnikToKorisnikDto toKorisnikDto;
+    private UserToUserDto toKorisnikDto;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -67,7 +67,7 @@ public class KorisnikController {
 
 //    @PreAuthorize("permitAll()")
     @PostMapping
-    public ResponseEntity<KorisnikDTO> create(@RequestBody @Validated KorisnikRegistracijaDTO dto){
+    public ResponseEntity<UserDTO> create(@RequestBody @Validated UserRegistrationDTO dto){
 
         if(dto.getId() != null || !dto.getLozinka().equals(dto.getPonovljenaLozinka())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -75,7 +75,7 @@ public class KorisnikController {
 
         // KorisnikRegistracijaDTO nasleđuje KorisnikDTO, pa možemo koristiti konverter za njega
         // ostaje da dodatno konvertujemo polje kojeg u njemu nema - password
-        Korisnik korisnik = toKorisnik.convert(dto);
+        User korisnik = toKorisnik.convert(dto);
 
         // dodatak za zadatak 1
         String encodedPassword = passwordEncoder.encode(dto.getLozinka());
@@ -86,21 +86,21 @@ public class KorisnikController {
 
 //    @PreAuthorize("hasAnyRole('KORISNIK', 'ADMIN')")
     @PutMapping(value= "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<KorisnikDTO> update(@PathVariable Long id, @Valid @RequestBody KorisnikDTO korisnikDTO){
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO korisnikDTO){
 
         if(!id.equals(korisnikDTO.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Korisnik korisnik = toKorisnik.convert(korisnikDTO);
+        User korisnik = toKorisnik.convert(korisnikDTO);
 
         return new ResponseEntity<>(toKorisnikDto.convert(korisnikService.save(korisnik)),HttpStatus.OK);
     }
 
 //    @PreAuthorize("hasAnyRole('KORISNIK', 'ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<KorisnikDTO> get(@PathVariable Long id){
-        Optional<Korisnik> korisnik = korisnikService.findOne(id);
+    public ResponseEntity<UserDTO> get(@PathVariable Long id){
+        Optional<User> korisnik = korisnikService.findOne(id);
 
         if(korisnik.isPresent()) {
             return new ResponseEntity<>(toKorisnikDto.convert(korisnik.get()), HttpStatus.OK);
@@ -112,14 +112,14 @@ public class KorisnikController {
 
 //    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<KorisnikDTO>> get(@RequestParam(defaultValue="0") int page){
-        Page<Korisnik> korisnici = korisnikService.findAll(page);
+    public ResponseEntity<List<UserDTO>> get(@RequestParam(defaultValue="0") int page){
+        Page<User> korisnici = korisnikService.findAll(page);
         return new ResponseEntity<>(toKorisnikDto.convert(korisnici.getContent()), HttpStatus.OK);
     }
 
 //    @PreAuthorize("hasRole('KORISNIK')")
     @RequestMapping(value="/{id}", method = RequestMethod.PUT, params = "promenaLozinke")
-    public ResponseEntity<Void> changePassword(@PathVariable Long id, @RequestBody KorisnikPromenaLozinkeDto dto){
+    public ResponseEntity<Void> changePassword(@PathVariable Long id, @RequestBody UserPasswordChangeDto dto){
         // ova metoda se "okida" kada se primi PUT /korisnici?promenaLozinke
         // pogrešno bi bilo mapirati na npr. PUT /korisnici/lozinke, pošto "lozinka" nije punopravan REST resurs!
 
@@ -143,7 +143,7 @@ public class KorisnikController {
 
 //    @PreAuthorize("permitAll()")
     @RequestMapping(path = "/auth", method = RequestMethod.POST)
-    public ResponseEntity authenticateUser(@RequestBody AuthKorisnikDto dto) {
+    public ResponseEntity authenticateUser(@RequestBody AuthUserDto dto) {
         // Perform the authentication
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());

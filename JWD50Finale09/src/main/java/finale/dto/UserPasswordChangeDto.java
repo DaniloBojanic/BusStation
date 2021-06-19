@@ -2,7 +2,7 @@ package finale.dto;
 
 import javax.validation.constraints.Pattern;
 
-public class KorisnikPromenaLozinkeDto {
+public class UserPasswordChangeDto {
 	
 	private String korisnickoIme;
 

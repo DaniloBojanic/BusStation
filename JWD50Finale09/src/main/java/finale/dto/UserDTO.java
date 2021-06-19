@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-public class KorisnikDTO{
+public class UserDTO{
 	private Long id;
 
     @NotBlank
@@ -21,7 +21,7 @@ public class KorisnikDTO{
     @Size(min=3, max=50)
     private String prezime;
 
-	public KorisnikDTO() {
+	public UserDTO() {
 		super();
 	}
 

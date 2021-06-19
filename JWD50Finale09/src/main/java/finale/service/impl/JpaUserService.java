@@ -11,39 +11,39 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import finale.dto.KorisnikPromenaLozinkeDto;
-import finale.enumeration.KorisnickaUloga;
-import finale.model.Korisnik;
-import finale.repository.KorisnikRepository;
-import finale.service.KorisnikService;
+import finale.dto.UserPasswordChangeDto;
+import finale.enumeration.UserRole;
+import finale.model.User;
+import finale.repository.UserRepository;
+import finale.service.UserService;
 
 @Service
-public class JpaKorisnikService implements KorisnikService{
+public class JpaUserService implements UserService{
 	
 	@Autowired
-    private KorisnikRepository korisnikRepository;
+    private UserRepository korisnikRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Override
-    public Optional<Korisnik> findOne(Long id) {
+    public Optional<User> findOne(Long id) {
         return korisnikRepository.findById(id);
     }
 
     @Override
-    public List<Korisnik> findAll() {
+    public List<User> findAll() {
         return korisnikRepository.findAll();
     }
 
     @Override
-    public Page<Korisnik> findAll(int brojStranice) {
+    public Page<User> findAll(int brojStranice) {
         return korisnikRepository.findAll(PageRequest.of(brojStranice,10));
     }
 
     @Override
-    public Korisnik save(Korisnik korisnik) {
-        korisnik.setUloga(KorisnickaUloga.KORISNIK);
+    public User save(User korisnik) {
+        korisnik.setUloga(UserRole.USER);
         return korisnikRepository.save(korisnik);
     }
 
@@ -53,19 +53,19 @@ public class JpaKorisnikService implements KorisnikService{
     }
 
     @Override
-    public Optional<Korisnik> findbyKorisnickoIme(String korisnickoIme) {
+    public Optional<User> findbyKorisnickoIme(String korisnickoIme) {
         return korisnikRepository.findFirstByKorisnickoIme(korisnickoIme);
     }
 
     @Override
-    public boolean changePassword(Long id, KorisnikPromenaLozinkeDto korisnikPromenaLozinkeDto) {
-        Optional<Korisnik> rezultat = korisnikRepository.findById(id);
+    public boolean changePassword(Long id, UserPasswordChangeDto korisnikPromenaLozinkeDto) {
+        Optional<User> rezultat = korisnikRepository.findById(id);
 
         if(!rezultat.isPresent()) {
             throw new EntityNotFoundException();
         }
 
-        Korisnik korisnik = rezultat.get();
+        User korisnik = rezultat.get();
 
         if(!korisnik.getKorisnickoIme().equals(korisnikPromenaLozinkeDto.getKorisnickoIme())
                 || !korisnik.getLozinka().equals(korisnikPromenaLozinkeDto.getLozinka())){

@@ -2,14 +2,14 @@ package finale.dto;
 
 import javax.validation.constraints.NotBlank;
 
-public class AuthKorisnikDto {
+public class AuthUserDto {
 	@NotBlank
     private String username;
 
     @NotBlank
     private String password;
 
-    public AuthKorisnikDto() {}
+    public AuthUserDto() {}
 
     public String getUsername() { return username; }
 

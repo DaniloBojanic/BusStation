@@ -8,10 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import finale.enumeration.KorisnickaUloga;
+import finale.enumeration.UserRole;
 
 @Entity
-public class Korisnik {
+public class User {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,14 +33,14 @@ public class Korisnik {
     private String lozinka;
 
     @Enumerated(EnumType.STRING)
-    private KorisnickaUloga uloga;
+    private UserRole uloga;
 
-	public Korisnik() {
+	public User() {
 		super();
 	}
 
-	public Korisnik(Long id, String korisnickoIme, String eMail, String ime, String prezime, String lozinka,
-			KorisnickaUloga uloga) {
+	public User(Long id, String korisnickoIme, String eMail, String ime, String prezime, String lozinka,
+			UserRole uloga) {
 		super();
 		this.id = id;
 		this.korisnickoIme = korisnickoIme;
@@ -101,11 +101,11 @@ public class Korisnik {
 		this.lozinka = lozinka;
 	}
 
-	public KorisnickaUloga getUloga() {
+	public UserRole getUloga() {
 		return uloga;
 	}
 
-	public void setUloga(KorisnickaUloga uloga) {
+	public void setUloga(UserRole uloga) {
 		this.uloga = uloga;
 	}
 
@@ -125,7 +125,7 @@ public class Korisnik {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Korisnik other = (Korisnik) obj;
+		User other = (User) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

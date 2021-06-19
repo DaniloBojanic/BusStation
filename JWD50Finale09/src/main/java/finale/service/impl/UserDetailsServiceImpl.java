@@ -14,15 +14,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import finale.model.Korisnik;
-import finale.service.KorisnikService;
+import finale.model.User;
+import finale.service.UserService;
 
 @Service
 @Primary
 public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Autowired
-	  private KorisnikService korisnikService;
+	  private UserService korisnikService;
 
 	  /* Zelimo da predstavimo korisnika preko UserDetails klase - nacina
 	  *  na koji Spring boot predstavlja korisnika. Ucitamo na osnovu korisnickog imena
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	  @Override
 	  @Transactional
 	  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	    Korisnik korisnik = korisnikService.findbyKorisnickoIme(username).orElse(null);
+	    User korisnik = korisnikService.findbyKorisnickoIme(username).orElse(null);
 
 	    if (korisnik == null) {
 	      throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
