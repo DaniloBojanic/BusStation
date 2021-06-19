@@ -42,7 +42,7 @@ import finale.support.UserToUserDto;
 
 @RestController
 @RequestMapping(value = "/api/korisnici", produces = MediaType.APPLICATION_JSON_VALUE)
-public class KorisnikController {
+public class UserController {
 	
 	@Autowired
     private UserService korisnikService;
