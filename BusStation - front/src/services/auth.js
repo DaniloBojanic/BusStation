@@ -6,7 +6,7 @@ export const login = async function(username, password){
         password: password
     }
     try{
-        const ret = await Axios.post('korisnici/auth', data);
+        const ret = await Axios.post('users/auth', data);
         window.localStorage.setItem('jwt', ret.data);
     }catch(error){
         console.log(error);

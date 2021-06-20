@@ -21,68 +21,67 @@ import finale.service.UserService;
 public class JpaUserService implements UserService{
 	
 	@Autowired
-    private UserRepository korisnikRepository;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Override
-    public Optional<User> findOne(Long id) {
-        return korisnikRepository.findById(id);
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public Optional<User> one(Long id) {
+        return userRepository.findById(id);
     }
 
     @Override
-    public List<User> findAll() {
-        return korisnikRepository.findAll();
+    public List<User> all() {
+        return userRepository.findAll();
     }
 
     @Override
-    public Page<User> findAll(int brojStranice) {
-        return korisnikRepository.findAll(PageRequest.of(brojStranice,10));
-    }
-
-    @Override
-    public User save(User korisnik) {
-        korisnik.setUloga(UserRole.USER);
-        return korisnikRepository.save(korisnik);
+    public Page<User> all(int pageNo) {
+        return userRepository.findAll(PageRequest.of(pageNo,2));
     }
 
     @Override
     public void delete(Long id) {
-        korisnikRepository.deleteById(id);
+    	userRepository.deleteById(id);
     }
 
     @Override
-    public Optional<User> findbyKorisnickoIme(String korisnickoIme) {
-        return korisnikRepository.findFirstByKorisnickoIme(korisnickoIme);
+    public Optional<User> findbyKorisnickoIme(String username) {
+        return userRepository.findFirstByUsername(username);
     }
 
     @Override
-    public boolean changePassword(Long id, UserPasswordChangeDto korisnikPromenaLozinkeDto) {
-        Optional<User> rezultat = korisnikRepository.findById(id);
+    public boolean changePassword(Long id, UserPasswordChangeDto userPasswordChangeDto) {
+        Optional<User> rezultat = userRepository.findById(id);
 
         if(!rezultat.isPresent()) {
             throw new EntityNotFoundException();
         }
 
-        User korisnik = rezultat.get();
+        User user = rezultat.get();
 
-        if(!korisnik.getKorisnickoIme().equals(korisnikPromenaLozinkeDto.getKorisnickoIme())
-                || !korisnik.getLozinka().equals(korisnikPromenaLozinkeDto.getLozinka())){
+        if(!user.getUsername().equals(userPasswordChangeDto.getUsername())
+                || !user.getPassword().equals(userPasswordChangeDto.getPassword())){
             return false;
         }
 
-        // dodatak za zadatak 2
-        String password = korisnikPromenaLozinkeDto.getLozinka();
-        if (!korisnikPromenaLozinkeDto.getLozinka().equals("")) {
-            password = passwordEncoder.encode(korisnikPromenaLozinkeDto.getLozinka());
+        String password = userPasswordChangeDto.getPassword();
+        if (!userPasswordChangeDto.getPassword().equals("")) {
+            password = passwordEncoder.encode(userPasswordChangeDto.getPassword());
         }
 
-        korisnik.setLozinka(password);
+        user.setPassword(password);
 
-        korisnikRepository.save(korisnik);
+        userRepository.save(user);
 
         return true;
     }
+
+	@Override
+	public User save(User user) {
+    	user.setRole(UserRole.USER);
+    	return userRepository.save(user);
+	}
 
 }

@@ -39,13 +39,13 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
 	        // korisnik moze imati vise od jedne uloge te za svaku ulogu mogu biti definisana prava
-	        String role = "ROLE_" + korisnik.getUloga().toString();
+	        String role = "ROLE_" + korisnik.getRole().toString();
 	        //String role = korisnik.getUloga().toString();
 	        grantedAuthorities.add(new SimpleGrantedAuthority(role));
 
 	        return new org.springframework.security.core.userdetails.User(
-	                korisnik.getKorisnickoIme().trim(),
-	                korisnik.getLozinka().trim(),
+	                korisnik.getUsername().trim(),
+	                korisnik.getPassword().trim(),
 	                grantedAuthorities);
 	    }
 	  }

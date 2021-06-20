@@ -1,67 +1,20 @@
 package finale.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
 public class UserDTO{
 	private Long id;
 
-    @NotBlank
-    private String korisnickoIme;
-
-    @NotEmpty
-    @Email
-    private String eMail;
-
-    @Size(min=3, max=50)
-    private String ime;
-
-    @Size(min=3, max=50)
-    private String prezime;
-
-	public UserDTO() {
-		super();
-	}
+	private String username;
 
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getKorisnickoIme() {
-		return korisnickoIme;
+	public String getUsername() {
+		return username;
 	}
-
-	public void setKorisnickoIme(String korisnickoIme) {
-		this.korisnickoIme = korisnickoIme;
-	}
-
-	public String geteMail() {
-		return eMail;
-	}
-
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
-	}
-
-	public String getIme() {
-		return ime;
-	}
-
-	public void setIme(String ime) {
-		this.ime = ime;
-	}
-
-	public String getPrezime() {
-		return prezime;
-	}
-
-	public void setPrezime(String prezime) {
-		this.prezime = prezime;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

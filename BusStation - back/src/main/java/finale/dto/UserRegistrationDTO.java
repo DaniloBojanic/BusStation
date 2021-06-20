@@ -2,25 +2,22 @@ package finale.dto;
 
 public class UserRegistrationDTO extends UserDTO{
 	
-	private String lozinka;
-
-    private String ponovljenaLozinka;
-
-    public String getLozinka() {
-        return lozinka;
-    }
-
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
-    }
-
-    public String getPonovljenaLozinka() {
-        return ponovljenaLozinka;
-    }
-
-    public void setPonovljenaLozinka(String ponovljenaLozinka) {
-        this.ponovljenaLozinka = ponovljenaLozinka;
-    }
-
+	private String password;
+	
+	private String passwordConfirm;
+	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+   
 
 }

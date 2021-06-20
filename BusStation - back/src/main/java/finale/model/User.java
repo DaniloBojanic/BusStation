@@ -10,133 +10,66 @@ import javax.persistence.Id;
 
 import finale.enumeration.UserRole;
 
-@Entity
-public class User {
-	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Entity
+	public class User { 
+		
+		@Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String korisnickoIme;
+	    @Column(unique = true, nullable = false)
+	    private String username;
 
-    @Column( unique = true, nullable = false)
-    private String eMail;
+	    @Column(nullable = false)
+	    private String password;
 
-    @Column
-    private String ime;
+	    @Enumerated(EnumType.STRING)
+	    private UserRole role;
 
-    @Column
-    private String prezime;
+	    public User(){
 
-    @Column(nullable = false)
-    private String lozinka;
+	    }
 
-    @Enumerated(EnumType.STRING)
-    private UserRole uloga;
 
-	public User() {
-		super();
+	    public Long getId() {
+	        return id;
+	    }
+
+	    public void setId(Long id) {
+	        this.id = id;
+	    }
+
+
+		public String getUsername() {
+			return username;
+		}
+
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+
+		public String getPassword() {
+			return password;
+		}
+
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+
+		public UserRole getRole() {
+			return role;
+		}
+
+
+		public void setRole(UserRole role) {
+			this.role = role;
+		}
+		
+		
+		
+
 	}
-
-	public User(Long id, String korisnickoIme, String eMail, String ime, String prezime, String lozinka,
-			UserRole uloga) {
-		super();
-		this.id = id;
-		this.korisnickoIme = korisnickoIme;
-		this.eMail = eMail;
-		this.ime = ime;
-		this.prezime = prezime;
-		this.lozinka = lozinka;
-		this.uloga = uloga;
-	}
-	
-	
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getKorisnickoIme() {
-		return korisnickoIme;
-	}
-
-	public void setKorisnickoIme(String korisnickoIme) {
-		this.korisnickoIme = korisnickoIme;
-	}
-
-	public String geteMail() {
-		return eMail;
-	}
-
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
-	}
-
-	public String getIme() {
-		return ime;
-	}
-
-	public void setIme(String ime) {
-		this.ime = ime;
-	}
-
-	public String getPrezime() {
-		return prezime;
-	}
-
-	public void setPrezime(String prezime) {
-		this.prezime = prezime;
-	}
-
-	public String getLozinka() {
-		return lozinka;
-	}
-
-	public void setLozinka(String lozinka) {
-		this.lozinka = lozinka;
-	}
-
-	public UserRole getUloga() {
-		return uloga;
-	}
-
-	public void setUloga(UserRole uloga) {
-		this.uloga = uloga;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Korisnik [id=" + id + ", ime=" + ime + ", prezime=" + prezime + "]";
-	}
-
-}
